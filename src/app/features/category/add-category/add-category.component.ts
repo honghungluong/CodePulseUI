@@ -1,20 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AddCateGoryRequestModel } from '../models/add-category-request-model';
 import { CategoryService } from '../services/category.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-category',
   templateUrl: './add-category.component.html',
   styleUrls: ['./add-category.component.css']
 })
-export class AddCategoryComponent {
+export class AddCategoryComponent implements OnDestroy {
   model: AddCateGoryRequestModel
+  private addCategorySubcription? :Subscription;
 
   constructor(private categoryService: CategoryService){
     this.model = {
       Name: '',
-      UrlHandle: ''  
+      UrlHandle: ''
     };
+  }
+  ngOnDestroy(): void {
+    this.addCategorySubcription?.unsubscribe();
   }
 
   onFormSubmit(){
